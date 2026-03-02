@@ -12,7 +12,8 @@ export const addAddress = async (req, res) => {
       .status(201)
       .json({ success: true, message: "Address added successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Internal Server Error" });
+    console.error("Error creating address:", error);
+    res.status(500).json({ message: "Internal Server Error", error: error.message });
   }
 };
 //get address:// /api/address/get
