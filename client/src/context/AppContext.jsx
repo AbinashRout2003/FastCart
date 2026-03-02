@@ -11,8 +11,9 @@ export const AppContextProvider = ({ children }) => {
 
   // Backend axios instance
   const api = axios.create({
-    // baseURL: "http://localhost:5000", // your backend URL
-    baseURL: "https://fast-cart-app-server.vercel.app/", // your backend URL
+    // baseURL: "http://localhost:5000", // your local backend URL
+    // baseURL: "https://fast-cart-app-server.vercel.app/", // your Vercel backend URL
+    baseURL: import.meta.env.VITE_BACKEND_URL,
     withCredentials: true,            // send cookies
   });
 
