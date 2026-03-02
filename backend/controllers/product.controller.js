@@ -3,14 +3,28 @@
 // add product :/api/product/add
 import Product from "../models/product.model.js";
 import mongoose from "mongoose";
+import { v2 as cloudinary } from "cloudinary";
 
 // add product : /api/product/add-product
 export const addProduct = async (req, res) => {
   try {
     const { name, price, offerPrice, description, category } = req.body;
 
-    // multer-storage-cloudinary automatically uploads the file and puts the remote URL in `file.path`
-    const image = req.files ? req.files.map((file) => file.path) : [];
+    // Upload each image buffer directly to Cloudinary
+    const uploadPromises = req.files ? req.files.map((file) => {
+      return new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "fast-cart-uploads" },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result.secure_url);
+          }
+        );
+        stream.end(file.buffer);
+      });
+    }) : [];
+
+    const image = await Promise.all(uploadPromises);
 
     if (
       !name ||
