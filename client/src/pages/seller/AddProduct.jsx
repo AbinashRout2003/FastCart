@@ -26,10 +26,12 @@ const AddProduct = () => {
       formData.append("offerPrice", offerPrice);
 
       // ✅ Correct Image Upload Field
-      files.forEach((file) => {
-        if (file) {
-          formData.append("images", file);
-        }
+      const validFiles = files.filter(file => file);
+      if (validFiles.length === 0) {
+        return toast.error("At least one product image is required.");
+      }
+      validFiles.forEach((file) => {
+        formData.append("images", file);
       });
 
       const { data } = await axios.post(

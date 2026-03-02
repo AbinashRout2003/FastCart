@@ -63,6 +63,11 @@ export const AppContextProvider = ({ children }) => {
 
   // Cart functions
   const addToCart = (id) => {
+    if (!user) {
+      setShowUserLogin(true);
+      toast.error("Please login to add items to the cart");
+      return;
+    }
     const newCart = { ...cartItems };
     newCart[id] = (newCart[id] || 0) + 1;
     setCartItems(newCart);
@@ -70,6 +75,11 @@ export const AppContextProvider = ({ children }) => {
   };
 
   const removeFromCart = (id) => {
+    if (!user) {
+      setShowUserLogin(true);
+      toast.error("Please login to modify your cart");
+      return;
+    }
     const newCart = { ...cartItems };
     if (newCart[id]) {
       newCart[id]--;
@@ -79,6 +89,11 @@ export const AppContextProvider = ({ children }) => {
   };
 
   const updateCartItem = (id, qty) => {
+    if (!user) {
+      setShowUserLogin(true);
+      toast.error("Please login to modify your cart");
+      return;
+    }
     const newCart = { ...cartItems };
     if (qty <= 0) delete newCart[id];
     else newCart[id] = qty;
