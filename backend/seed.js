@@ -1,8 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Product from "./models/product.model.js";
-
-// Hardcoded images mapped to Cloudinary URLs or local paths since actual file imports won't work in a raw node script
+import dns from "node:dns";
 const imageMap = {
     potato_image_1: "potato_image_1.png",
     tomato_image: "tomato_image.png",
@@ -507,6 +506,7 @@ dotenv.config();
 
 const seedDB = async () => {
     try {
+        dns.setServers(["8.8.8.8", "8.8.4.4"]);
         await mongoose.connect(process.env.MONGO_URI);
         console.log("MongoDB connected for seeding...");
 
