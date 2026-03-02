@@ -60,6 +60,7 @@ const Address = () => {
             <label className="block text-gray-600">First Name</label>
             <input
               type="text"
+              id="firstName"
               name="firstName"
               value={address.firstName}
               onChange={handleChange}
@@ -72,6 +73,7 @@ const Address = () => {
             <label className="block text-gray-600">Last Name</label>
             <input
               type="text"
+              id="lastName"
               name="lastName"
               value={address.lastName}
               onChange={handleChange}
@@ -84,6 +86,7 @@ const Address = () => {
             <label className="block text-gray-600">Email</label>
             <input
               type="email"
+              id="email"
               name="email"
               value={address.email}
               onChange={handleChange}
@@ -96,6 +99,7 @@ const Address = () => {
             <label className="block text-gray-600">Street</label>
             <input
               type="text"
+              id="street"
               name="street"
               value={address.street}
               onChange={handleChange}
@@ -108,6 +112,7 @@ const Address = () => {
             <label className="block text-gray-600">City</label>
             <input
               type="text"
+              id="city"
               name="city"
               value={address.city}
               onChange={handleChange}
@@ -120,6 +125,7 @@ const Address = () => {
             <label className="block text-gray-600">State</label>
             <input
               type="text"
+              id="state"
               name="state"
               value={address.state}
               onChange={handleChange}
@@ -132,6 +138,7 @@ const Address = () => {
             <label className="block text-gray-600">Zip Code</label>
             <input
               type="number"
+              id="zipCode"
               name="zipCode"
               value={address.zipCode}
               onChange={handleChange}
@@ -144,6 +151,7 @@ const Address = () => {
             <label className="block text-gray-600">Country</label>
             <input
               type="text"
+              id="country"
               name="country"
               value={address.country}
               onChange={handleChange}
@@ -156,6 +164,7 @@ const Address = () => {
             <label className="block text-gray-600">Phone</label>
             <input
               type="number"
+              id="phone"
               name="phone"
               value={address.phone}
               onChange={handleChange}
@@ -167,6 +176,8 @@ const Address = () => {
           <div className="col-span-2">
             <button
               type="submit"
+              id="submitAddress"
+              name="submitAddress"
               className="w-full bg-indigo-500 hover:bg-indigo-600 text-white py-2 rounded-md"
             >
               Save Address

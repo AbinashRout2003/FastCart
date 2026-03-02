@@ -271,12 +271,12 @@ const Cart = () => {
             </p>
             <button
               onClick={() => setShowAddress(!showAddress)}
-              className="text-indigo-500 hover:underline cursor-pointer"
+              className="text-indigo-500 hover:underline cursor-pointer relative z-20"
             >
               Change
             </button>
             {showAddress && (
-              <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full">
+              <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full z-50 shadow-md">
                 {address.map((address, index) => (
                   <p
                     key={index}
