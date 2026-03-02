@@ -168,7 +168,9 @@ const Cart = () => {
               >
                 <img
                   className="max-w-full h-full object-cover"
-                  src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${product.image[0]}`}
+                  src={product.image[0]?.startsWith("http")
+                    ? product.image[0]
+                    : `${import.meta.env.VITE_BACKEND_URL}/uploads/${product.image[0]}`}
                   alt={product.name}
                 />
               </div>

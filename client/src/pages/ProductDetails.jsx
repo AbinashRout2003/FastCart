@@ -64,7 +64,9 @@ const ProductDetails = () => {
                 className="border w-20 border-gray-300 rounded cursor-pointer"
               >
                 <img
-                  src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${img}`}
+                  src={img?.startsWith("http")
+                    ? img
+                    : `${import.meta.env.VITE_BACKEND_URL}/uploads/${img}`}
                   alt="thumb"
                 />
               </div>
@@ -74,7 +76,9 @@ const ProductDetails = () => {
           {/* Main Image */}
           <div className="border border-gray-300 rounded w-80">
             <img
-              src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${thumbnail}`}
+              src={thumbnail?.startsWith("http")
+                ? thumbnail
+                : `${import.meta.env.VITE_BACKEND_URL}/uploads/${thumbnail}`}
               alt="product"
             />
           </div>

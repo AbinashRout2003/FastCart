@@ -9,7 +9,8 @@ export const addProduct = async (req, res) => {
   try {
     const { name, price, offerPrice, description, category } = req.body;
 
-    const image = req.files ? req.files.map((file) => file.filename) : [];
+    // multer-storage-cloudinary automatically uploads the file and puts the remote URL in `file.path`
+    const image = req.files ? req.files.map((file) => file.path) : [];
 
     if (
       !name ||
