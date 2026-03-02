@@ -15,7 +15,7 @@ const Address = () => {
     country: "",
     phone: "",
   });
-  const { axios, user, navigate } = useContext(AppContext);
+  const { axios, user, setUser, navigate } = useContext(AppContext);
   const handleChange = (e) => {
     setAddress({ ...address, [e.target.name]: e.target.value });
   };
@@ -29,16 +29,15 @@ const Address = () => {
         toast.success(data.message);
         navigate("/cart");
       } else {
-        if (!data.message.includes("Unauthorized")) {
-          toast.error(data.message);
-        }
+        toast.error(data.message);
       }
     } catch (error) {
       if (error.response?.data?.message?.includes("Unauthorized")) {
-        // silently fail or logout user
+        toast.error("Session expired. Please login again.");
+        setUser(null);
         return;
       }
-      toast.error(error.message);
+      toast.error(error.response?.data?.message || error.message);
     }
   };
   useEffect(() => {

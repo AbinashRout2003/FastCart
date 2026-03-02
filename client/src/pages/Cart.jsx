@@ -15,6 +15,7 @@ const Cart = () => {
     updateCartItem,
     axios,
     user,
+    setUser,
   } = useAppContext();
 
   // state to store the products available in cart
@@ -51,7 +52,7 @@ const Cart = () => {
       }
     } catch (error) {
       if (error.response?.data?.message?.includes("Unauthorized")) {
-        // silently fail or logout user
+        setUser(null);
         return;
       }
       toast.error(error.message);
