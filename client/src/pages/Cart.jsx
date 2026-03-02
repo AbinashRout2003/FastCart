@@ -45,9 +45,15 @@ const Cart = () => {
           setSelectedAddress(data.addresses[0]);
         }
       } else {
-        toast.error(data.message);
+        if (!data.message.includes("Unauthorized")) {
+          toast.error(data.message);
+        }
       }
     } catch (error) {
+      if (error.response?.data?.message?.includes("Unauthorized")) {
+        // silently fail or logout user
+        return;
+      }
       toast.error(error.message);
     }
   };

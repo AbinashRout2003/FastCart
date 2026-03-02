@@ -47,6 +47,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 // Api endpoints
+app.use("/uploads", express.static("uploads"));
 app.use("/api/user", userRoutes);
 app.use("/api/seller", sellerRoutes);
 app.use("/api/product", productRoutes);

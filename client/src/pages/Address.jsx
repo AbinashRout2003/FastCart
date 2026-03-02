@@ -29,9 +29,15 @@ const Address = () => {
         toast.success(data.message);
         navigate("/cart");
       } else {
-        toast.error(data.message);
+        if (!data.message.includes("Unauthorized")) {
+          toast.error(data.message);
+        }
       }
     } catch (error) {
+      if (error.response?.data?.message?.includes("Unauthorized")) {
+        // silently fail or logout user
+        return;
+      }
       toast.error(error.message);
     }
   };
