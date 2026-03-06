@@ -57,7 +57,7 @@ const MyOrders = () => {
                   <img
                     src={item.product.image[0]?.startsWith("http")
                       ? item.product.image[0]
-                      : `${import.meta.env.VITE_BACKEND_URL}/uploads/${item.product.image[0]}`}
+                      : `${import.meta.env.VITE_BACKEND_URL || "http://localhost:5000"}/uploads/${item.product.image[0]}`}
                     alt=""
                     className="w-16 h-16"
                   />

@@ -3,6 +3,7 @@ import { useAppContext } from "../../context/AppContext";
 
 const ProductList = () => {
   const { products, fetchProducts, axios } = useAppContext();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   const toggleStock = async (id, inStock) => {
     try {
@@ -41,7 +42,7 @@ const ProductList = () => {
                       <img
                         src={product.image[0]?.startsWith("http")
                           ? product.image[0]
-                          : `${import.meta.env.VITE_BACKEND_URL}/uploads/${product.image[0]}`}
+                          : `${backendUrl}/uploads/${product.image[0]}`}
                         alt="Product"
                         className="w-16"
                       />

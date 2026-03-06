@@ -10,22 +10,6 @@ export const addProduct = async (req, res) => {
   try {
     const { name, price, offerPrice, description, category } = req.body;
 
-    // Upload each image buffer directly to Cloudinary
-    const uploadPromises = req.files ? req.files.map((file) => {
-      return new Promise((resolve, reject) => {
-        const stream = cloudinary.uploader.upload_stream(
-          { folder: "fast-cart-uploads" },
-          (error, result) => {
-            if (error) reject(error);
-            else resolve(result.secure_url);
-          }
-        );
-        stream.end(file.buffer);
-      });
-    }) : [];
-
-    const image = await Promise.all(uploadPromises);
-
     if (
       !name ||
       !price ||
@@ -41,13 +25,35 @@ export const addProduct = async (req, res) => {
       });
     }
 
+    let imageUrls = [];
+
+    if (process.env.NODE_ENV === "production") {
+      // Production: Upload to Cloudinary
+      const uploadPromises = req.files.map((file) => {
+        return new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: "fast-cart-uploads" },
+            (error, result) => {
+              if (error) reject(error);
+              else resolve(result.secure_url);
+            }
+          );
+          stream.end(file.buffer);
+        });
+      });
+      imageUrls = await Promise.all(uploadPromises);
+    } else {
+      // Development: Use the files already saved on disk by Multer
+      imageUrls = req.files.map((file) => file.filename);
+    }
+
     const product = new Product({
       name,
       price,
       offerPrice,
       description,
       category,
-      image,
+      image: imageUrls,
     });
 
     const savedProduct = await product.save();
@@ -59,11 +65,11 @@ export const addProduct = async (req, res) => {
     });
 
   } catch (error) {
-    console.error("Error in addProduct:", error);
-
+    console.error("❌ Error in addProduct:", error);
     return res.status(500).json({
       success: false,
       message: "Server error while adding product",
+      error: error.message, // Return the error message to help the user debug on Vercel
     });
   }
 };

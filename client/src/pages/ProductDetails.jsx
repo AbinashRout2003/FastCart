@@ -8,6 +8,7 @@ const ProductDetails = () => {
   const { products, addToCart } = useAppContext();
   const { id } = useParams();
   const navigate = useNavigate();
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
 
   const [thumbnail, setThumbnail] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -66,7 +67,7 @@ const ProductDetails = () => {
                 <img
                   src={img?.startsWith("http")
                     ? img
-                    : `${import.meta.env.VITE_BACKEND_URL}/uploads/${img}`}
+                    : `${backendUrl}/uploads/${img}`}
                   alt="thumb"
                 />
               </div>
@@ -78,7 +79,7 @@ const ProductDetails = () => {
             <img
               src={thumbnail?.startsWith("http")
                 ? thumbnail
-                : `${import.meta.env.VITE_BACKEND_URL}/uploads/${thumbnail}`}
+                : `${backendUrl}/uploads/${thumbnail}`}
               alt="product"
             />
           </div>
