@@ -22,56 +22,65 @@ import { connectCloudinary } from "./config/cloudinary.js";
 
 const app = express();
 
-// Initialize DB and Cloudinary gracefully
-const initializeServices = async () => {
+const startServer = async () => {
   try {
+    // connect services first
+    await connectDB();
     await connectCloudinary();
-    connectDB();
+
+    console.log("Services initialized");
+
+    const allowedOrigins = [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      process.env.FRONTEND_URL
+    ];
+
+    app.use(cors({
+      origin: function (origin, callback) {
+        const isLocalhost =
+          !origin || /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin);
+
+        const isVercel = origin && origin.endsWith(".vercel.app");
+
+        if (isLocalhost || isVercel || allowedOrigins.includes(origin)) {
+          callback(null, true);
+        } else {
+          console.log("Blocked by CORS:", origin);
+          callback(new Error("Not allowed by CORS"));
+        }
+      },
+      credentials: true
+    }));
+
+    app.use(cookieParser());
+    app.use(express.json());
+
+    app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+    app.use("/api/user", userRoutes);
+    app.use("/api/seller", sellerRoutes);
+    app.use("/api/product", productRoutes);
+    app.use("/api/cart", cartRoutes);
+    app.use("/api/address", addressRoutes);
+    app.use("/api/order", orderRoutes);
+
+    app.get("/", (req, res) => {
+      res.send("API is running on Vercel");
+    });
+
+
+    const PORT = process.env.PORT || 5000;
+
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
+
   } catch (error) {
-    console.error("Initialization Failed:", error);
+    console.error("Server start failed:", error);
   }
 };
-initializeServices();
-// allow multiple origins
 
-const allowedOrigins = [
-  "http://localhost:5173",
-  "http://localhost:3000"
-];
-//middlewares
-app.use(cors({
-  origin: function (origin, callback) {
-    const isLocalhost = !origin || /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin);
-    const isVercel = origin && (origin.endsWith('.vercel.app') || origin === process.env.FRONTEND_URL);
-
-    if (isLocalhost || isVercel || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log("Blocked by CORS:", origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true
-}));
-app.use(cookieParser());
-app.use(express.json());
-
-// Api endpoints
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-app.use("/api/user", userRoutes);
-app.use("/api/seller", sellerRoutes);
-app.use("/api/product", productRoutes);
-app.use("/api/cart", cartRoutes);
-app.use("/api/address", addressRoutes);
-app.use("/api/order", orderRoutes);
-
-app.get("/", (req, res) => {
-  res.send("API is running on Vercel");
-});
-
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+startServer();
 
 export default app;
