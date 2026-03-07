@@ -35,13 +35,13 @@ app.use(cors({
     const isLocalhost =
       !origin || /^http:\/\/(localhost|127\.0\.0\.1):\d+$/.test(origin);
 
-    const isVercel = origin && origin.endsWith(".vercel.app");
+    const isVercel = origin && (origin.endsWith(".vercel.app") || origin.includes("fast-cart"));
 
     if (isLocalhost || isVercel || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
       console.log("Blocked by CORS:", origin);
-      callback(new Error("Not allowed by CORS"));
+      callback(null, true); // Temporarily allow all during debugging to confirm if CORS is the issue
     }
   },
   credentials: true
@@ -49,6 +49,13 @@ app.use(cors({
 
 app.use(cookieParser());
 app.use(express.json());
+
+// 2.5 Request logging for debugging
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // 3. API Routes
