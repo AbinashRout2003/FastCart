@@ -7,7 +7,7 @@ const ProductList = () => {
 
   const toggleStock = async (id, inStock) => {
     try {
-      const { data } = await axios.post("/api/product/stock", { id, inStock });
+      const { data } = await axios.post("/product/stock", { id, inStock });
       if (data.success) {
         fetchProducts();
         toast.success(data.message);
@@ -42,7 +42,7 @@ const ProductList = () => {
                       <img
                         src={product.image[0]?.startsWith("http")
                           ? product.image[0]
-                          : `${backendUrl}/uploads/${product.image[0]}`}
+                          : `/uploads/${product.image[0]}`}
                         alt="Product"
                         className="w-16"
                       />

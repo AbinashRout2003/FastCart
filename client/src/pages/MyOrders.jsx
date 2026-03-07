@@ -8,7 +8,7 @@ const MyOrders = () => {
   const { axios, user, setUser } = useContext(AppContext);
   const fetchOrders = async () => {
     try {
-      const { data } = await axios.get("/api/order/user");
+      const { data } = await axios.get("/order/user");
       if (data.success) {
         setMyOrders(data.orders);
       } else {
@@ -57,7 +57,7 @@ const MyOrders = () => {
                   <img
                     src={item.product.image[0]?.startsWith("http")
                       ? item.product.image[0]
-                      : `${import.meta.env.VITE_BACKEND_URL || (import.meta.env.MODE === "production" ? "" : "http://localhost:5000")}/uploads/${item.product.image[0]}`}
+                      : `/uploads/${item.product.image[0]}`}
                     alt=""
                     className="w-16 h-16"
                   />

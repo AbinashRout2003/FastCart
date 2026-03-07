@@ -35,7 +35,7 @@ const AddProduct = () => {
       });
 
       const { data } = await axios.post(
-        "/api/product/add-product",
+        "/product/add-product",
         formData,
         {
           headers: {

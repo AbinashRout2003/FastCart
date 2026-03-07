@@ -39,7 +39,7 @@ const Cart = () => {
 
   const getAddress = async () => {
     try {
-      const { data } = await axios.get("/api/address/get");
+      const { data } = await axios.get("/address/get");
       if (data.success) {
         setAddress(data.addresses);
         if (data.addresses.length > 0) {
@@ -76,7 +76,7 @@ const Cart = () => {
       }
       // place order with cod
       if (paymentOption === "COD") {
-        const { data } = await axios.post("/api/order/cod", {
+        const { data } = await axios.post("/order/cod", {
           items: cartArray.map((item) => ({
             product: item._id,
             quantity: item.quantity,
@@ -92,7 +92,7 @@ const Cart = () => {
         }
         // place order with online payment (Razorpay)
       } else if (paymentOption === "Online") {
-        const { data } = await axios.post("/api/order/razorpay", {
+        const { data } = await axios.post("/order/razorpay", {
           items: cartArray.map((item) => ({
             product: item._id,
             quantity: item.quantity,
@@ -111,7 +111,7 @@ const Cart = () => {
             handler: async (response) => {
               // Now verify the payment on the backend
               try {
-                const verifyData = await axios.post("/api/order/verifyRazorpay", {
+                const verifyData = await axios.post("/order/verifyRazorpay", {
                   razorpay_order_id: response.razorpay_order_id,
                   razorpay_payment_id: response.razorpay_payment_id,
                   razorpay_signature: response.razorpay_signature,
@@ -177,7 +177,7 @@ const Cart = () => {
                   className="max-w-full h-full object-cover"
                   src={product.image[0]?.startsWith("http")
                     ? product.image[0]
-                    : `${import.meta.env.VITE_BACKEND_URL || (import.meta.env.MODE === "production" ? "" : "http://localhost:5000")}/uploads/${product.image[0]}`}
+                    : `/uploads/${product.image[0]}`}
                   alt={product.name}
                 />
               </div>

@@ -11,7 +11,7 @@ export const AppContextProvider = ({ children }) => {
 
   // Backend axios instance
   const api = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL || (import.meta.env.MODE === "production" ? "" : "http://localhost:5000"), // Relative in production, localhost in development
+    baseURL: import.meta.env.VITE_BACKEND_URL || (import.meta.env.MODE === "production" ? "/api" : "http://localhost:5000/api"),
     withCredentials: true,                     // send cookies
   });
 
@@ -46,7 +46,7 @@ export const AppContextProvider = ({ children }) => {
   // Fetch products from backend
   const fetchProducts = async () => {
     try {
-      const { data } = await api.get("/api/product/list");
+      const { data } = await api.get("/product/list");
       if (data.success) {
         setProducts(data.products);
       } else {
@@ -115,7 +115,7 @@ export const AppContextProvider = ({ children }) => {
   const sellerLogout = async () => {
     try {
       const { data } = await api.post(
-        "/api/seller/logout",
+        "/seller/logout",
         {},
         { withCredentials: true }
       );

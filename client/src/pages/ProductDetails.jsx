@@ -79,7 +79,7 @@ const ProductDetails = () => {
             <img
               src={thumbnail?.startsWith("http")
                 ? thumbnail
-                : `${backendUrl}/uploads/${thumbnail}`}
+                : `/uploads/${thumbnail}`}
               alt="product"
             />
           </div>
