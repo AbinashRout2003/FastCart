@@ -25,12 +25,13 @@ export const addProduct = async (req, res) => {
       });
     }
 
-    const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
-    console.log(`Environment: NODE_ENV=${process.env.NODE_ENV}, VERCEL=${process.env.VERCEL}`);
+    // Memory-First Strategy: Default to Cloudinary unless explicitly in local dev
+    const useCloudinary = !(process.env.NODE_ENV === "development" && !process.env.VERCEL);
+    console.log(`Environment Detection: useCloudinary=${useCloudinary}, NODE_ENV=${process.env.NODE_ENV}, VERCEL=${process.env.VERCEL}`);
 
     let imageUrls = [];
 
-    if (isProduction) {
+    if (useCloudinary) {
       // Production: Upload to Cloudinary
       const uploadPromises = req.files.map((file) => {
         return new Promise((resolve, reject) => {

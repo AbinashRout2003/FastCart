@@ -20,8 +20,10 @@ const diskStorage = multer.diskStorage({
 const memoryStorage = multer.memoryStorage();
 
 // 3. Export based on environment
-const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
+// Memory-First Strategy: Default to memory storage (Cloudinary) to avoid EROFS errors on Vercel.
+// Use disk storage ONLY if explicitly in local development and not on Vercel.
+const useDiskStorage = process.env.NODE_ENV === "development" && !process.env.VERCEL;
 
 export const upload = multer({
-    storage: isProduction ? memoryStorage : diskStorage,
+    storage: useDiskStorage ? diskStorage : memoryStorage,
 });
