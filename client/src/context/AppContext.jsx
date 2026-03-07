@@ -11,7 +11,7 @@ export const AppContextProvider = ({ children }) => {
 
   // Backend axios instance
   const api = axios.create({
-    baseURL: import.meta.env.VITE_BACKEND_URL || "http://localhost:5000", // Dynamic URL based on environment
+    baseURL: import.meta.env.VITE_BACKEND_URL || (import.meta.env.MODE === "production" ? "" : "http://localhost:5000"), // Relative in production, localhost in development
     withCredentials: true,                     // send cookies
   });
 

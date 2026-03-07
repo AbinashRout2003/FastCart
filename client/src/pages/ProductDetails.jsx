@@ -8,7 +8,7 @@ const ProductDetails = () => {
   const { products, addToCart } = useAppContext();
   const { id } = useParams();
   const navigate = useNavigate();
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || (import.meta.env.MODE === "production" ? "" : "http://localhost:5000");
 
   const [thumbnail, setThumbnail] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);

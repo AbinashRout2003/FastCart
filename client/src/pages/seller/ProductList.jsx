@@ -3,7 +3,7 @@ import { useAppContext } from "../../context/AppContext";
 
 const ProductList = () => {
   const { products, fetchProducts, axios } = useAppContext();
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:5000";
+  const backendUrl = import.meta.env.VITE_BACKEND_URL || (import.meta.env.MODE === "production" ? "" : "http://localhost:5000");
 
   const toggleStock = async (id, inStock) => {
     try {

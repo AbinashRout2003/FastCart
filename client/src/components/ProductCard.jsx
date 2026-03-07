@@ -22,7 +22,7 @@ const ProductCard = ({ product }) => {
           className="group-hover:scale-105 transition w-24 md:w-32"
           src={product?.image?.[0]?.startsWith("http")
             ? product.image[0]
-            : `${import.meta.env.VITE_BACKEND_URL || "http://localhost:5000"}/uploads/${product?.image?.[0]}`}
+            : `${import.meta.env.VITE_BACKEND_URL || (import.meta.env.MODE === "production" ? "" : "http://localhost:5000")}/uploads/${product?.image?.[0]}`}
           alt={product?.name}
         />
       </div>
