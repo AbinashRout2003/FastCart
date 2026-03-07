@@ -25,9 +25,12 @@ export const addProduct = async (req, res) => {
       });
     }
 
+    const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
+    console.log(`Environment: NODE_ENV=${process.env.NODE_ENV}, VERCEL=${process.env.VERCEL}`);
+
     let imageUrls = [];
 
-    if (process.env.NODE_ENV === "production") {
+    if (isProduction) {
       // Production: Upload to Cloudinary
       const uploadPromises = req.files.map((file) => {
         return new Promise((resolve, reject) => {

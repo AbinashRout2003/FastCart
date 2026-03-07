@@ -20,6 +20,8 @@ const diskStorage = multer.diskStorage({
 const memoryStorage = multer.memoryStorage();
 
 // 3. Export based on environment
+const isProduction = process.env.NODE_ENV === "production" || process.env.VERCEL === "1";
+
 export const upload = multer({
-    storage: process.env.NODE_ENV === "production" ? memoryStorage : diskStorage,
+    storage: isProduction ? memoryStorage : diskStorage,
 });
